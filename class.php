@@ -71,11 +71,6 @@ class SbrToShopify
     public function createOrder($data = [])
     {
         $order = $this->callPost('sales/orders', $data);
-
-        echo "<pre>";
-        print_r($order);
-        echo "</pre>";
-
         return $this->getIdFromHeader($order);
     }
 
@@ -222,4 +217,13 @@ class SbrToShopify
     {
         return mail('testdev301@gmail.com', 'Spb Testing', $data);
     }
+}
+
+// Dump data and exit
+function dd($dump) 
+{
+    echo "<pre>";
+    print_r($dump);
+    echo "</pre>";
+    exit;
 }
