@@ -16,19 +16,18 @@ if( isset($shopifyResponse['fulfillments']) && count($shopifyResponse['fulfillme
 
 	if( $customer ) {
 
-    	$item_data = $item_ids = [];
+    	$order_items = $invoice_items = [];
         $addressId = $class->checkAddress($customer, $shopifyResponse['billing_address']);
 
     	foreach( $shopifyResponse['fulfillments'] as $fulfillments ) {
     		foreach( $fulfillments['line_items'] as $item ) {
     			if( isset($item['sku']) && $item['sku'] != '' ) {
-    				/*$item_ids[] = [
-    						'item_id' => $spb_item['results'][0]['id'],
-    						'qty' => $item['quantity'],
-    						"type" => "ItemLine"
-    					];*/
+    				$invoice_items[] = [
+    						'item_lookup' => $item['sku'],
+    						'qty' => intval($item['quantity'])
+    					];
 
-    				$item_data[] = [
+    				$order_items[] = [
     					'item_lookup' => $item['sku'],
     					'qty' => intval($item['quantity']),
     					'ship_from_location_id' => intval(100005),
@@ -44,7 +43,7 @@ if( isset($shopifyResponse['fulfillments']) && count($shopifyResponse['fulfillme
 			'station_id' => intval(100005),
 			'billing_address_id' => $addressId,
 			'shipping_address_id' => $addressId,
-			'lines' => $item_data
+			'lines' => $order_items
 		];
 
         $order = $class->createOrder( $order_data );
@@ -71,12 +70,12 @@ if( isset($shopifyResponse['fulfillments']) && count($shopifyResponse['fulfillme
 			'station_id' => '100070',
 			'total' => $shopifyResponse['total_price'],
 			'order_id' => $order,
+			'item_lines' => $invoice_items,
+			'status' => 'complete'
 		];
 
 		$invoice = $class->createInvoice($invoice_data);
-		$dump = $class->addItemToInvoice($invoice, $item_ids);
-		$dump = $class->updateInvoice($invoice, ['status' => 'complete']);
 
-        dd($dump);
+		dd($invoice);
     }
 }

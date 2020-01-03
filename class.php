@@ -34,7 +34,6 @@ class SbrToShopify
         return $this->callPost('customers', $customer_data);
     }
     
-   
     public function checkAddress($customer_id, $data)
     {  
         $address = $this->callGet('customers/'.$customer_id.'/addresses');
@@ -56,11 +55,6 @@ class SbrToShopify
             ];
             
         return $this->callPost('customers/'.$customer_id.'/addresses', $adderss_data);
-    }
-    
-    public function searchItem($term)
-    {
-        return $this->callGet('/items?query='.$term);
     }
     
     public function getOrder($order_id)
@@ -90,53 +84,11 @@ class SbrToShopify
         return $this->callPost('sales/invoices/'.$invoiceId, $data, 'PUT');
     }
 
-    public function searchInvoice($term)
-    {
-        return $this->callGet('sales/invoices?query='.$term);
-    }
-
-    public function addItemToOrder($orderId, $data)
-    {
-        return $this->callPost('sales/orders/'.$orderId.'/lines', $data);    
-    }
-
-    public function updateOrderItem($orderId, $data)
-    {
-        return $this->callPost('sales/orders/'.$orderId.'/lines', $data);    
-    }
-
-    public function addItemToInvoice($invoiceId, $data)
-    {
-        if (count($data) > 0) {
-            foreach ($data as $value) {
-                $this->callPost('sales/invoices/'.$invoiceId.'/lines', $value);    
-            }
-            return true;
-        }
-        return false;
-    }
-    
     public function changeOrderStatus($orderId, $status)
     {
         return $this->callPost('sales/orders/'.$orderId, ['status' => $status], 'PUT');
     }
 
-    public function createAdjustment($location_data)
-    {
-        $adjustment = $this->callPost('inventory/adjustment_sets', $location_data);
-        return $this->getIdFromHeader($adjustment);
-    }
-
-    public function addAdjustmentItems($adjustmentId, $data)
-    {
-        return $this->callPost('inventory/adjustment_sets/'.$adjustmentId.'/lines', $data);
-    }
-
-    public function updateAdjustment($adjustmentId, $data)
-    {
-        return $this->callPost('inventory/adjustment_sets/'.$adjustmentId, $data, 'PUT');
-    }
-    
     public function callGet($url, $data = '') 
     {
         $curl = curl_init();
