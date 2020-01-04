@@ -65,6 +65,10 @@ class SbrToShopify
     public function createOrder($data = [])
     {
         $order = $this->callPost('sales/orders', $data);
+
+        if (isset($order['body']['error']) && !empty($order['body']['error'])) {
+            return $order['body'];
+        }
         return $this->getIdFromHeader($order);
     }
 
@@ -120,7 +124,11 @@ class SbrToShopify
     
     public function callPost($url, $data, $method = "POST") 
     {
-        $response_data = [];
+        $response_data = [
+                'header', 
+                'body'
+            ];
+
         $curl = curl_init();
         
         curl_setopt_array($curl, array(
@@ -148,15 +156,18 @@ class SbrToShopify
         $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $header_size);
         
+        $body = substr($response, $header_size);
+
         curl_close($curl);
         
         if (!$err) {
             $response_data['header'] = $header;
-            $response_data['data'] = $response;
+            $response_data['body'] = json_decode($body, true);
             
             return $response_data;
         }
-        return [];
+        
+        return $response_data['body']['error'] = 'Something went wrong.';
     }
     
     public function getIdFromHeader($data) 

@@ -46,9 +46,9 @@ if( isset($shopifyResponse['fulfillments']) && count($shopifyResponse['fulfillme
 			'lines' => $order_items
 		];
 
+        // dd($order_data);
         $order = $class->createOrder( $order_data );
 
-        // dd($order);
 
         // Get order details
 		$orderDetail = $class->getOrder($order);
