@@ -3634,3 +3634,53 @@ $shopifyResponse = '{
     }
   }
 }';
+
+
+
+/**
+ * Create Item Data
+ */
+$itemData = '{
+  "id": 171705,
+  "metadata": {},
+  "cost": 1,
+  "price": 1,
+  "description": "Test - l - Red",
+  "allow_fractional_qty?": false,
+  "public_id": "171705",
+  "default_lookup_id": 171705,
+  "long_description": null,
+  "custom": {
+    "size": "l",
+    "color": "Red",
+    "category": "BLOUSES",
+    "department": "ACTIVEWEAR"
+  },
+  "active?": true,
+  "created_at": "2020-01-08T05:15:48+00:00",
+  "updated_at": "2020-01-08T05:15:48+00:00",
+  "financial_class_id": null,
+  "import_batch_id": null,
+  "primary_vendor_id": null,
+  "primary_barcode": "SR171705",
+  "grid_id": 3,
+  "original_price": 2,
+  "sort_key": 71866,
+  "metadata_private": null,
+  "import_set_id": null,
+  "created_by_user_id": 100168,
+  "prompt_for_price?": false,
+  "prompt_for_description?": false,
+  "use_dynamic_margin?": false,
+  "dynamic_margin": null,
+  "updated_by_user_id": null,
+  "weight": null,
+  "width": null,
+  "height": null,
+  "depth": null,
+  "track_inventory?": true,
+  "add_on_for_items_matching_filter?": false,
+  "add_on_item_filter": null,
+  "uuid": "db153abb-385b-42a4-80a1-56267c022dc9",
+  "primary_image_id": null
+}';
